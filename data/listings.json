@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "title": "Modern Family Home in Tacloban",
+    "price": "₱4,500,000",
+    "address": "Brgy. 88, Tacloban City, Leyte",
+    "beds": 3,
+    "baths": 2,
+    "sqft": 180,
+    "status": "For Sale",
+    "thumbnail": "/images/listing-interior.jpg",
+    "images": [
+      "/images/listing-interior.jpg",
+      "/images/listing-exterior.jpg",
+      "/images/listing-architecture.jpg"
+    ],
+    "caption": "**Brand new listing!**\n\nA beautiful **3-bedroom** home in the heart of Tacloban.\n\n- 3 bedrooms, 2 bathrooms\n- 180 sqm floor area\n- Prime location near schools and hospitals\n- Ready for occupancy\n\n📞 Call Glenda for viewing!"
+  },
+  {
+    "id": 2,
+    "title": "Beachfront Villa in Palo",
+    "price": "₱7,200,000",
+    "address": "Brgy. 1, Palo, Leyte",
+    "beds": 4,
+    "baths": 3,
+    "sqft": 250,
+    "status": "For Sale",
+    "thumbnail": "/images/listing-architecture.jpg",
+    "images": [
+      "/images/listing-architecture.jpg",
+      "/images/listing-interior.jpg"
+    ],
+    "caption": "**Stunning beachfront property!**\n\nExperience coastal living at its finest.\n\n- 4 bedrooms, 3 bathrooms\n- 250 sqm floor area\n- Direct beach access\n- Modern finishes throughout\n- Perfect for vacation or investment\n\nSchedule a viewing today!"
+  },
+  {
+    "id": 3,
+    "title": "Cozy Townhouse in Ormoc",
+    "price": "₱2,800,000",
+    "address": "Brgy. 27, Ormoc City, Leyte",
+    "beds": 2,
+    "baths": 1,
+    "sqft": 120,
+    "status": "For Sale",
+    "thumbnail": "/images/listing-exterior.jpg",
+    "images": [
+      "/images/listing-exterior.jpg",
+      "/images/listing-luxury.jpg"
+    ],
+    "caption": "**Perfect for starters!**\n\nA charming townhouse in a quiet neighborhood.\n\n- 2 bedrooms, 1 bathroom\n- 120 sqm floor area\n- Near schools and markets\n- Move-in ready\n- Gated community\n\nAffordable and convenient!"
+  }
+]

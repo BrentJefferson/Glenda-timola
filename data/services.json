@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Buy Properties",
+    "description": "Find your dream home or investment property. I help buyers navigate the market, negotiate the best deals, and close with confidence.",
+    "icon": "home"
+  },
+  {
+    "title": "Sell Properties",
+    "description": "Get the best value for your property. I handle marketing, showings, negotiations, and paperwork to make selling stress-free.",
+    "icon": "badge-percent"
+  },
+  {
+    "title": "Rent & Lease",
+    "description": "Whether you're looking for a rental or want to lease out your property, I connect landlords with quality tenants.",
+    "icon": "file-text"
+  },
+  {
+    "title": "Property Consulting",
+    "description": "Expert advice on property valuation, market trends, and investment opportunities across Leyte and Samar.",
+    "icon": "chart-line"
+  }
+]

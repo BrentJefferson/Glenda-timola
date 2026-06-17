@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { marked } from 'marked'
 import listings from '../../data/listings.json'
 
@@ -19,7 +19,24 @@ export default function ListingDetail() {
   }
 
   const [currentImage, setCurrentImage] = useState(0)
+  const [fullscreen, setFullscreen] = useState(null)
   const hasImages = listing.images && listing.images.length > 0
+
+  const openFullscreen = (i) => setFullscreen(i ?? currentImage)
+  const closeFullscreen = () => setFullscreen(null)
+  const prevFullscreen = () => setFullscreen((fullscreen - 1 + listing.images.length) % listing.images.length)
+  const nextFullscreen = () => setFullscreen((fullscreen + 1) % listing.images.length)
+
+  useEffect(() => {
+    if (fullscreen === null) return
+    const handler = (e) => {
+      if (e.key === 'Escape') closeFullscreen()
+      if (e.key === 'ArrowLeft') prevFullscreen()
+      if (e.key === 'ArrowRight') nextFullscreen()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [fullscreen])
 
   return (
     <div className="min-h-screen pt-16 bg-white">
@@ -38,7 +55,8 @@ export default function ListingDetail() {
             <img
               src={listing.images[currentImage]}
               alt={listing.title}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain cursor-pointer"
+              onClick={() => openFullscreen(currentImage)}
             />
             {listing.images.length > 1 && (
               <>
@@ -153,7 +171,8 @@ export default function ListingDetail() {
             <img
               src={listing.images[currentImage]}
               alt={listing.title}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain cursor-pointer"
+              onClick={() => openFullscreen(currentImage)}
             />
             {listing.images.length > 1 && (
               <>
@@ -244,6 +263,56 @@ export default function ListingDetail() {
           </a>
         </div>
       </div>
+
+      {fullscreen !== null && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+          onClick={closeFullscreen}
+        >
+          <button
+            onClick={(e) => { e.stopPropagation(); closeFullscreen() }}
+            className="absolute top-4 right-4 text-white/80 hover:text-white p-2 z-10"
+            aria-label="Close"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+
+          {listing.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); prevFullscreen() }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10"
+                aria-label="Previous"
+              >
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); nextFullscreen() }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10"
+                aria-label="Next"
+              >
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium z-10">
+                {fullscreen + 1} / {listing.images.length}
+              </div>
+            </>
+          )}
+
+          <img
+            src={listing.images[fullscreen]}
+            alt={listing.title}
+            className="max-w-full max-h-full object-contain p-4"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   )
 }

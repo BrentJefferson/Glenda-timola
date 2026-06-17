@@ -20,7 +20,32 @@ export default function ListingDetail() {
 
   const [currentImage, setCurrentImage] = useState(0)
   const [fullscreen, setFullscreen] = useState(null)
+  const [imageLoading, setImageLoading] = useState(true)
+  const [fsLoading, setFsLoading] = useState(true)
   const hasImages = listing.images && listing.images.length > 0
+
+  useEffect(() => {
+    let cancelled = false
+    setImageLoading(true)
+    const img = new Image()
+    img.onload = () => { if (!cancelled) setImageLoading(false) }
+    img.onerror = () => { if (!cancelled) setImageLoading(false) }
+    img.src = listing.images[currentImage]
+    if (img.complete) setImageLoading(false)
+    return () => { cancelled = true }
+  }, [currentImage])
+
+  useEffect(() => {
+    if (fullscreen === null) return
+    let cancelled = false
+    setFsLoading(true)
+    const img = new Image()
+    img.onload = () => { if (!cancelled) setFsLoading(false) }
+    img.onerror = () => { if (!cancelled) setFsLoading(false) }
+    img.src = listing.images[fullscreen]
+    if (img.complete) setFsLoading(false)
+    return () => { cancelled = true }
+  }, [fullscreen])
 
   const openFullscreen = (i) => setFullscreen(i ?? currentImage)
   const closeFullscreen = () => setFullscreen(null)
@@ -52,17 +77,24 @@ export default function ListingDetail() {
 
         {hasImages ? (
           <div className="relative rounded-2xl overflow-hidden bg-[#1a1a1a] mb-10 aspect-[16/9] flex items-center justify-center">
+            {imageLoading && (
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
+              </div>
+            )}
             <img
               src={listing.images[currentImage]}
               alt={listing.title}
-              className="w-full h-full object-contain cursor-pointer"
+              className={`w-full h-full object-contain cursor-pointer transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
               onClick={() => openFullscreen(currentImage)}
+              onLoad={() => setImageLoading(false)}
             />
             {listing.images.length > 1 && (
               <>
                 <button
                   onClick={() => setCurrentImage((prev) => (prev - 1 + listing.images.length) % listing.images.length)}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all"
+                  disabled={imageLoading}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Previous image"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -71,7 +103,8 @@ export default function ListingDetail() {
                 </button>
                 <button
                   onClick={() => setCurrentImage((prev) => (prev + 1) % listing.images.length)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all"
+                  disabled={imageLoading}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Next image"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -168,17 +201,24 @@ export default function ListingDetail() {
 
         {hasImages ? (
           <div className="relative rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center aspect-[4/3]">
+            {imageLoading && (
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
+              </div>
+            )}
             <img
               src={listing.images[currentImage]}
               alt={listing.title}
-              className="w-full h-full object-contain cursor-pointer"
+              className={`w-full h-full object-contain cursor-pointer transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
               onClick={() => openFullscreen(currentImage)}
+              onLoad={() => setImageLoading(false)}
             />
             {listing.images.length > 1 && (
               <>
                 <button
                   onClick={() => setCurrentImage((prev) => (prev - 1 + listing.images.length) % listing.images.length)}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/85 text-navy p-2 rounded-full shadow"
+                  disabled={imageLoading}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/85 text-navy p-2 rounded-full shadow disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Previous image"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -187,7 +227,8 @@ export default function ListingDetail() {
                 </button>
                 <button
                   onClick={() => setCurrentImage((prev) => (prev + 1) % listing.images.length)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/85 text-navy p-2 rounded-full shadow"
+                  disabled={imageLoading}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/85 text-navy p-2 rounded-full shadow disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Next image"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -283,7 +324,8 @@ export default function ListingDetail() {
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); prevFullscreen() }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10"
+                disabled={fsLoading}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed"
                 aria-label="Previous"
               >
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -292,7 +334,8 @@ export default function ListingDetail() {
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); nextFullscreen() }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10"
+                disabled={fsLoading}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed"
                 aria-label="Next"
               >
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -305,11 +348,17 @@ export default function ListingDetail() {
             </>
           )}
 
+          {fsLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-10 h-10 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
+            </div>
+          )}
           <img
             src={listing.images[fullscreen]}
             alt={listing.title}
-            className="max-w-full max-h-full object-contain p-4"
+            className={`max-w-full max-h-full object-contain p-4 transition-opacity duration-300 ${fsLoading ? 'opacity-0' : 'opacity-100'}`}
             onClick={(e) => e.stopPropagation()}
+            onLoad={() => setFsLoading(false)}
           />
         </div>
       )}

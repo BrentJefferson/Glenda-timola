@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -26,7 +27,7 @@ function HomePage() {
 
   return (
     <>
-      {order.map((key) => sections.home[key]?.enabled ? sectionMap[key] : null)}
+      {order.map((key) => sections.home[key]?.enabled ? <Fragment key={key}>{sectionMap[key]}</Fragment> : null)}
     </>
   )
 }

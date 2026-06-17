@@ -86,9 +86,9 @@ export default function TestimonialsPage() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
           {testimonials.map((t) => (
-            <div key={t.id} className="bg-white rounded-xl p-8 border border-cream">
+            <div key={t.id} className="w-full md:w-[calc(50%-0.75rem)] bg-white rounded-xl p-8 border border-cream">
               <div className="text-gold mb-4 flex gap-1">
                 {Array.from({ length: t.rating }).map((_, i) => (
                   <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

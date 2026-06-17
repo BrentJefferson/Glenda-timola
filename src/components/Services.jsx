@@ -33,11 +33,11 @@ export default function Services() {
           <div className="w-16 h-0.5 bg-gold mx-auto mt-4" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {services.map((service) => (
             <div
               key={service.title}
-              className="bg-white rounded-xl p-8 border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.08)] transition-all duration-300 group"
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white rounded-xl p-8 border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.08)] transition-all duration-300 group"
             >
               <div className="text-navy/60 group-hover:text-gold transition-colors duration-300 mb-5">
                 {iconMap[service.icon]}

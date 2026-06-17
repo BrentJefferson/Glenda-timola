@@ -7,18 +7,26 @@ import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ListingDetail from './pages/ListingDetail'
+import ListingsPage from './pages/ListingsPage'
 import TestimonialsPage from './pages/TestimonialsPage'
 import MobilePortrait from './components/MobilePortrait'
+import sections from '../data/sections.json'
+
+const sectionMap = {
+  hero: <Hero />,
+  mobilePortrait: <MobilePortrait />,
+  services: <Services />,
+  featuredListings: <FeaturedListings />,
+  testimonials: <Testimonials />,
+  contact: <Contact />
+}
 
 function HomePage() {
+  const order = ['hero', 'mobilePortrait', 'services', 'featuredListings', 'testimonials', 'contact']
+
   return (
     <>
-      <Hero />
-      <MobilePortrait />
-      <Services />
-      <FeaturedListings />
-      <Testimonials />
-      <Contact />
+      {order.map((key) => sections.home[key]?.enabled ? sectionMap[key] : null)}
     </>
   )
 }
@@ -31,6 +39,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/listing/:id" element={<ListingDetail />} />
+          <Route path="/listings" element={<ListingsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
         </Routes>
       </main>

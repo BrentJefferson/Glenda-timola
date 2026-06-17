@@ -1,0 +1,29 @@
+{
+  "label": "Get in Touch",
+  "title": "Contact Me",
+  "description": "Ready to find your dream home or sell your property? Let's talk.",
+  "area": "Leyte & Samar",
+  "buttonText": "Send Message",
+  "formFields": [
+    { "id": "name", "label": "Name", "type": "text", "placeholder": "Your name" },
+    { "id": "email", "label": "Email", "type": "email", "placeholder": "your@email.com" },
+    { "id": "message", "label": "Message", "type": "textarea", "placeholder": "How can I help you?", "rows": 4 }
+  ],
+  "infoBlocks": [
+    {
+      "title": "Phone",
+      "text": "0906 208 1535",
+      "icon": "phone"
+    },
+    {
+      "title": "Email",
+      "text": "glenda.timola@example.com",
+      "icon": "email"
+    },
+    {
+      "title": "Service Area",
+      "text": "Leyte and Samar, Philippines",
+      "icon": "location"
+    }
+  ]
+}

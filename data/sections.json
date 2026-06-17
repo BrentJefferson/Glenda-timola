@@ -1,0 +1,10 @@
+{
+  "home": {
+    "hero": { "enabled": true },
+    "mobilePortrait": { "enabled": true },
+    "services": { "enabled": true },
+    "featuredListings": { "enabled": true },
+    "testimonials": { "enabled": true },
+    "contact": { "enabled": true }
+  }
+}

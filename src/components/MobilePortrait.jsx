@@ -1,4 +1,5 @@
 import profile from '../../data/profile.json'
+import contact from '../../data/contact.json'
 
 export default function MobilePortrait() {
   const hasPhoto = Boolean(profile.photo)
@@ -22,7 +23,7 @@ export default function MobilePortrait() {
         <div>
           <p className="text-navy font-display font-bold text-sm">{profile.name}</p>
           <p className="text-taupe text-xs">{profile.title}</p>
-          <p className="text-gold text-xs font-semibold mt-1">{profile.area}</p>
+          <p className="text-gold text-xs font-semibold mt-1">{contact.area}</p>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ my initial plan:
 
 1. Vite+react+tailwind, scaffold first(research the doc of tailwind v4 as tailwind v4 has a different way of doing things and doesnt do tailwind config no more)
 2. build the sections that we have contexts on first and then we ask her questions later because I dont know what logo or company name or is it company that I should represent on the website or her, the agent(portfolio style).
-3. I made a folder named asset/ and I will put the assets there, each post will have its own folder where I will put each photos there and then a txt file where I will put the caption of the fb post, the fb post caption has an ugly ass formatting so do proper formatting in markdown, thus the listing caption should render markdown format.
+3. I made a folder named asset/ I will put the posts there so you can make the datas I will also put there the hubspot image links since I will be hosting the images in hubspot
 4. Have a data/ folder, we will not have a CMS for now, we will just do this workflow. Deploy on vercel-> when editing edit the contents using the data js files in the data folder which is for each sections.
 5. I dunno what sections or features is even in a real estate agent website even have, based on my research rn they seem to put the listings as the default page, but anyway you should go and see 3 the top rated real estate agents with website and see how they structure or design their website then we will apply it to aunt's web design, we should tweak a bit to avoid copyright issue tho
 6. we will plan first before executing, make sure to use your interactive interview feature to ask me if there's things you need to ask.

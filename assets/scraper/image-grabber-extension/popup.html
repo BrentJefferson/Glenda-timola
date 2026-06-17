@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Carousel Image Grabber</title>
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 14px;
+      background: #111318;
+      color: #e8e8e8;
+      font: 13px/1.5 "SF Mono", "Consolas", "Menlo", monospace;
+    }
+    h1 {
+      font-size: 13px;
+      margin: 0 0 10px;
+      color: #00ffb0;
+      letter-spacing: 0.02em;
+    }
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      background: #1b1e26;
+      border: 1px solid rgba(0, 255, 176, 0.3);
+      color: #e8e8e8;
+      padding: 8px;
+      border-radius: 6px;
+      font: inherit;
+      margin-bottom: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 9px;
+      border: none;
+      border-radius: 6px;
+      background: #00ffb0;
+      color: #0a0a0a;
+      font: 700 13px inherit;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #3a3f4a;
+      color: #888;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 10px;
+      max-height: 180px;
+      overflow-y: auto;
+      font-size: 11px;
+      color: #aaa;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 8px;
+      white-space: pre-wrap;
+    }
+    .err { color: #ff6b6b; }
+    .ok { color: #00ffb0; }
+  </style>
+</head>
+<body>
+  <h1>Carousel Image Grabber</h1>
+  <input type="text" id="linkInput" placeholder="Paste link here..." />
+  <button id="startBtn">Start</button>
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -15,7 +15,6 @@
     "vite": "^8.0.16"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
     "marked": "^18.0.5",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

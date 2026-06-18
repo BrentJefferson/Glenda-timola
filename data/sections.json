@@ -8,5 +8,5 @@
     "faq": { "enabled": false },
     "contact": { "enabled": true }
   },
-  "listingSpecs": { "enabled": true }
+  "listingSpecs": { "enabled": false }
 }

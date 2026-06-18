@@ -69,7 +69,7 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-24 bg-cream">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6 scroll-reveal">
         <div className="text-center mb-16">
           <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">Client Feedback</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">Testimonials</h2>
@@ -82,7 +82,7 @@ export default function Testimonials() {
           <>
             <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
               {sliced.map((t) => (
-                <div key={t.id} className="w-full md:w-[calc(50%-0.75rem)] bg-white rounded-xl p-8 border border-cream">
+                <div key={t.id} className="w-full md:w-[calc(50%-0.75rem)] bg-white rounded-xl p-8 border border-cream scroll-reveal">
                   <div className="text-gold mb-4 flex gap-1">
                     {Array.from({ length: t.rating }).map((_, i) => (
                       <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -101,7 +101,7 @@ export default function Testimonials() {
             </div>
 
             {testimonials.length > 4 && (
-              <div className="text-center mt-10">
+              <div className="text-center mt-10 scroll-reveal">
                 <Link
                   to="/testimonials"
                   className="inline-flex items-center gap-2 border-2 border-navy text-navy font-semibold px-8 py-3 rounded-lg hover:bg-navy hover:text-white transition-all duration-300 text-sm tracking-wide uppercase"

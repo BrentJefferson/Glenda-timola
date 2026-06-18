@@ -26,7 +26,7 @@ const iconMap = {
 export default function Services() {
   return (
     <section id="services" className="py-24 bg-cream">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6 scroll-reveal">
         <div className="text-center mb-16">
           <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">What I Offer</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">Services</h2>
@@ -37,7 +37,7 @@ export default function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white rounded-xl p-8 border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.08)] transition-all duration-300 group"
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white rounded-xl p-8 border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.08)] transition-all duration-300 group scroll-reveal"
             >
               <div className="text-navy/60 group-hover:text-gold transition-colors duration-300 mb-5">
                 {iconMap[service.icon]}

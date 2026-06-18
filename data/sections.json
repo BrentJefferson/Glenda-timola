@@ -4,7 +4,7 @@
     "mobilePortrait": { "enabled": true },
     "services": { "enabled": true },
     "featuredListings": { "enabled": true },
-    "testimonials": { "enabled": true },
+    "testimonials": { "enabled": false },
     "contact": { "enabled": true }
   }
 }

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import sections from '../../data/sections.json'
 
-const links = [
-  { label: 'Services', href: '#services' },
-  { label: 'Listings', href: '#listings' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Contact', href: '#contact' },
+const linkConfig = [
+  { label: 'Services', href: '#services', key: 'services' },
+  { label: 'Listings', href: '#listings', key: 'featuredListings' },
+  { label: 'Testimonials', href: '#testimonials', key: 'testimonials' },
+  { label: 'Contact', href: '#contact', key: 'contact' },
 ]
+
+const links = linkConfig.filter((l) => sections.home[l.key]?.enabled !== false)
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -29,7 +32,9 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="font-display font-bold text-lg tracking-tight text-navy">
+        <Link to="/" className={`font-display font-bold text-lg tracking-tight transition-all duration-500 ${
+          scrolled || !isHome ? 'opacity-100 text-navy' : 'opacity-0 text-white'
+        }`}>
           Glenda Timola
         </Link>
 

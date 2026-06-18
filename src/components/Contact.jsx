@@ -20,9 +20,26 @@ const icons = {
 }
 
 export default function Contact() {
+  const iconColor = (title) => {
+    if (title === 'Phone') return { bg: '#ECFDF5', text: '#059669' }
+    if (title === 'Email') return { bg: '#EEF2FF', text: '#4F46E5' }
+    if (title === 'Service Area') return { bg: '#FFF7ED', text: '#F97316' }
+    return { bg: '#F5F0EB', text: '#1B2A4A' }
+  }
+
+  const renderInfoText = (block) => {
+    if (block.title === 'Phone') {
+      return <a href={`tel:${block.text.replace(/[^0-9+]/g, '')}`} className="text-taupe text-sm hover:text-[#059669] transition-colors">{block.text}</a>
+    }
+    if (block.title === 'Email') {
+      return <a href={`mailto:${block.text}`} className="text-taupe text-sm hover:text-[#4F46E5] transition-colors">{block.text}</a>
+    }
+    return <p className="text-taupe text-sm">{block.text}</p>
+  }
+
   return (
     <section id="contact" className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6 scroll-reveal">
         <div className="text-center mb-16">
           <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">{contact.label}</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">{contact.title}</h2>
@@ -31,7 +48,7 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-4xl mx-auto">
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
             {contact.formFields.map((f) => (
               <div key={f.id}>
                 <label className="block text-navy text-sm font-semibold mb-1.5" htmlFor={f.id}>{f.label}</label>
@@ -63,12 +80,15 @@ export default function Contact() {
           <div className="space-y-8">
             {contact.infoBlocks.map((block) => (
               <div key={block.title} className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-cream flex items-center justify-center text-navy shrink-0">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors"
+                  style={{ backgroundColor: iconColor(block.title).bg, color: iconColor(block.title).text }}
+                >
                   {icons[block.icon]}
                 </div>
                 <div>
                   <h4 className="font-display font-bold text-navy text-sm mb-1">{block.title}</h4>
-                  <p className="text-taupe text-sm">{block.text}</p>
+                  {renderInfoText(block)}
                 </div>
               </div>
             ))}

@@ -4,7 +4,7 @@ import listings from '../../data/listings.json'
 export default function FeaturedListings() {
   return (
     <section id="listings" className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6 scroll-reveal">
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">Properties</p>
@@ -24,7 +24,7 @@ export default function FeaturedListings() {
                 <Link
                   key={listing.id}
                   to={`/listing/${listing.id}`}
-                  className="group rounded-xl overflow-hidden bg-white border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.12)] transition-all duration-300"
+                  className="group rounded-xl overflow-hidden bg-white border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.12)] transition-all duration-300 scroll-reveal"
                 >
                   <div className="aspect-[4/3] bg-cream relative overflow-hidden">
                     {listing.thumbnail ? (
@@ -80,7 +80,7 @@ export default function FeaturedListings() {
             </div>
 
             {listings.length > 3 && (
-              <div className="text-center mt-10">
+              <div className="text-center mt-10 scroll-reveal">
                 <Link
                   to="/listings"
                   className="inline-flex items-center gap-2 border-2 border-navy text-navy font-semibold px-8 py-3 rounded-lg hover:bg-navy hover:text-white transition-all duration-300 text-sm tracking-wide uppercase"

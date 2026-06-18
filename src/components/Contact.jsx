@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import contact from '../../data/contact.json'
 
 const icons = {
@@ -20,6 +22,27 @@ const icons = {
 }
 
 export default function Contact() {
+  const [formData, setFormData] = useState({})
+  const [status, setStatus] = useState('idle')
+
+  emailjs.init('1MLGAM1TFJlk_J06L')
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      await emailjs.send('service_fynz02e', 'template_pc8j04e', formData)
+      setStatus('success')
+      setFormData({})
+    } catch {
+      setStatus('error')
+    }
+  }
+
   const iconColor = (title) => {
     if (title === 'Phone') return { bg: '#ECFDF5', text: '#059669' }
     if (title === 'Email') return { bg: '#EEF2FF', text: '#4F46E5' }
@@ -48,7 +71,7 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-4xl mx-auto">
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {contact.formFields.map((f) => (
               <div key={f.id}>
                 <label className="block text-navy text-sm font-semibold mb-1.5" htmlFor={f.id}>{f.label}</label>
@@ -56,25 +79,38 @@ export default function Contact() {
                   <textarea
                     id={f.id}
                     rows={f.rows ?? 4}
+                    value={formData[f.id] || ''}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-cream bg-white focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all text-sm resize-none"
                     placeholder={f.placeholder}
+                    required
                   />
                 ) : (
                   <input
                     id={f.id}
                     type={f.type}
+                    value={formData[f.id] || ''}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-cream bg-white focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all text-sm"
                     placeholder={f.placeholder}
+                    required
                   />
                 )}
               </div>
             ))}
             <button
               type="submit"
-              className="w-full bg-gold text-navy font-semibold py-3 rounded-lg hover:bg-gold/90 transition-all duration-300 text-sm tracking-wide uppercase"
+              disabled={status === 'sending'}
+              className="w-full bg-gold text-navy font-semibold py-3 rounded-lg hover:bg-gold/90 disabled:opacity-50 transition-all duration-300 text-sm tracking-wide uppercase"
             >
-              {contact.buttonText}
+              {status === 'sending' ? 'Sending...' : status === 'success' ? 'Sent!' : contact.buttonText}
             </button>
+            {status === 'success' && (
+              <p className="text-emerald-600 text-sm text-center">Message sent! I'll get back to you soon.</p>
+            )}
+            {status === 'error' && (
+              <p className="text-red-500 text-sm text-center">Something went wrong. Try again or email me directly.</p>
+            )}
           </form>
 
           <div className="space-y-8">

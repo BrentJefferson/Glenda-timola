@@ -69,18 +69,22 @@ export default function ListingsPage() {
                   <p className="font-display text-xl font-bold text-gold mb-2">{listing.price}</p>
                   <p className="text-taupe text-sm mb-3">{listing.address}</p>
                   <div className="flex items-center gap-4 text-sm text-taupe">
-                    <span className="flex items-center gap-1">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                      </svg>
-                      {listing.beds === 0 ? 'Studio' : `${listing.beds} Beds`}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7M3 7a2 2 0 012-2h14a2 2 0 012 2M3 7h18" />
-                      </svg>
-                      {listing.baths} Baths
-                    </span>
+                    {listing.beds > 0 && (
+                      <span className="flex items-center gap-1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        {listing.beds} Beds
+                      </span>
+                    )}
+                    {listing.baths > 0 && (
+                      <span className="flex items-center gap-1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7M3 7a2 2 0 012-2h14a2 2 0 012 2M3 7h18" />
+                        </svg>
+                        {listing.baths} Baths
+                      </span>
+                    )}
                     {listing.sqft > 0 && (
                       <span className="flex items-center gap-1">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

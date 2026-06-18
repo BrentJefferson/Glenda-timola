@@ -29,7 +29,7 @@ export default function ListingDetail() {
     '@context': 'https://schema.org',
     '@type': 'Apartment',
     name: listing.title,
-    description: `${listing.beds === 0 ? 'Studio' : listing.beds + ' bedroom'} ${listing.baths} bathroom condo in ${listing.address} — ${listing.price}`,
+    description: `${listing.beds > 0 ? listing.beds + ' bedroom ' : ''}${listing.baths > 0 ? listing.baths + ' bathroom ' : ''}condo in ${listing.address} — ${listing.price}`,
     image: listing.thumbnail || (listing.images ? listing.images[0] : ''),
     offers: {
       '@type': 'Offer',
@@ -39,12 +39,13 @@ export default function ListingDetail() {
     },
     address: { '@type': 'PostalAddress', addressLocality: listing.address },
     floorSize: listing.sqft > 0 ? { '@type': 'QuantitativeValue', value: listing.sqft, unitCode: 'MTK' } : undefined,
-    numberOfBedrooms: listing.beds,
-    numberOfBathroomsTotal: listing.baths,
+    numberOfBedrooms: listing.beds || undefined,
+    numberOfBathroomsTotal: listing.baths || undefined,
   }
 
-  const listingTitle = `${listing.title} — ${listing.address} | ${listing.beds === 0 ? 'Studio' : listing.beds + ' Bed'}, ${listing.baths} Bath`
-  const listingDesc = `${listing.beds === 0 ? 'Studio' : listing.beds + '-bedroom'} ${listing.baths}-bathroom condo for ${listing.status.toLowerCase()} in ${listing.address}. ${listing.price}. Contact Glenda Timola.`
+  const specs = [listing.beds > 0 ? `${listing.beds} Bed` : '', listing.baths > 0 ? `${listing.baths} Bath` : ''].filter(Boolean).join(', ')
+  const listingTitle = `${listing.title} — ${listing.address}${specs ? ' | ' + specs : ''}`
+  const listingDesc = `${listing.beds > 0 ? listing.beds + '-bedroom ' : ''}${listing.baths > 0 ? listing.baths + '-bathroom ' : ''}condo for ${listing.status.toLowerCase()} in ${listing.address}. ${listing.price}. Contact Glenda Timola.`
 
   useEffect(() => {
     let cancelled = false
@@ -182,22 +183,28 @@ export default function ListingDetail() {
               </span>
             </div>
 
-            <div className="flex items-center gap-6 py-6 border-y border-cream mb-8">
-              <div className="text-center">
-                <p className="font-display text-2xl font-bold text-navy">{listing.beds === 0 ? '—' : listing.beds}</p>
-                <p className="text-taupe text-xs uppercase tracking-wide">{listing.beds === 0 ? 'Studio' : 'Beds'}</p>
+            {(listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
+              <div className="flex items-center gap-6 py-6 border-y border-cream mb-8">
+                {listing.beds > 0 && (
+                  <div className="text-center">
+                    <p className="font-display text-2xl font-bold text-navy">{listing.beds}</p>
+                    <p className="text-taupe text-xs uppercase tracking-wide">Beds</p>
+                  </div>
+                )}
+                {listing.baths > 0 && (
+                  <div className="text-center">
+                    <p className="font-display text-2xl font-bold text-navy">{listing.baths}</p>
+                    <p className="text-taupe text-xs uppercase tracking-wide">Baths</p>
+                  </div>
+                )}
+                {listing.sqft > 0 && (
+                  <div className="text-center">
+                    <p className="font-display text-2xl font-bold text-navy">{listing.sqft}</p>
+                    <p className="text-taupe text-xs uppercase tracking-wide">Sq m</p>
+                  </div>
+                )}
               </div>
-              <div className="text-center">
-                <p className="font-display text-2xl font-bold text-navy">{listing.baths}</p>
-                <p className="text-taupe text-xs uppercase tracking-wide">Baths</p>
-              </div>
-              {listing.sqft > 0 && (
-                <div className="text-center">
-                  <p className="font-display text-2xl font-bold text-navy">{listing.sqft}</p>
-                  <p className="text-taupe text-xs uppercase tracking-wide">Sq m</p>
-                </div>
-              )}
-            </div>
+            )}
 
             <div
               className="text-taupe text-sm leading-relaxed [&_strong]:text-charcoal [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1 [&_p]:mb-3"
@@ -309,22 +316,28 @@ export default function ListingDetail() {
           </p>
         </div>
 
-        <div className="flex items-center gap-6 py-3 border-t border-b border-cream">
-          <div className="text-center">
-            <p className="font-display text-xl font-bold text-navy">{listing.beds === 0 ? '—' : listing.beds}</p>
-            <p className="text-taupe text-[10px] uppercase tracking-wider">{listing.beds === 0 ? 'Studio' : 'Beds'}</p>
+        {(listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
+          <div className="flex items-center gap-6 py-3 border-t border-b border-cream">
+            {listing.beds > 0 && (
+              <div className="text-center">
+                <p className="font-display text-xl font-bold text-navy">{listing.beds}</p>
+                <p className="text-taupe text-[10px] uppercase tracking-wider">Beds</p>
+              </div>
+            )}
+            {listing.baths > 0 && (
+              <div className="text-center">
+                <p className="font-display text-xl font-bold text-navy">{listing.baths}</p>
+                <p className="text-taupe text-[10px] uppercase tracking-wider">Baths</p>
+              </div>
+            )}
+            {listing.sqft > 0 && (
+              <div className="text-center">
+                <p className="font-display text-xl font-bold text-navy">{listing.sqft}</p>
+                <p className="text-taupe text-[10px] uppercase tracking-wider">Sq m</p>
+              </div>
+            )}
           </div>
-          <div className="text-center">
-            <p className="font-display text-xl font-bold text-navy">{listing.baths}</p>
-            <p className="text-taupe text-[10px] uppercase tracking-wider">Baths</p>
-          </div>
-          {listing.sqft > 0 && (
-            <div className="text-center">
-              <p className="font-display text-xl font-bold text-navy">{listing.sqft}</p>
-              <p className="text-taupe text-[10px] uppercase tracking-wider">Sq m</p>
-            </div>
-          )}
-        </div>
+        )}
 
         <div
           className="text-taupe text-sm leading-relaxed [&_strong]:text-charcoal [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1 [&_p]:mb-3"

@@ -66,17 +66,34 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-cream px-6 pb-4">
-          {links.map(link => (
-            <a
-              key={link.href}
-              href={isHome ? link.href : `/${link.href}`}
-              className="block py-2 text-sm font-medium text-taupe hover:text-navy transition-colors tracking-wide uppercase"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-navy/60 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+          <div className="absolute top-0 right-0 h-full w-72 bg-white/70 backdrop-blur-xl shadow-2xl animate-slide-in">
+            <div className="flex items-center justify-between px-6 h-16 border-b border-navy/5">
+              <span className="font-display font-bold text-navy text-lg">Menu</span>
+              <button onClick={() => setMenuOpen(false)} className="text-taupe hover:text-navy transition-colors" aria-label="Close menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="px-6 pt-6 space-y-1">
+              {links.map(link => (
+                <a
+                  key={link.href}
+                  href={isHome ? link.href : `/${link.href}`}
+                  onClick={() => setMenuOpen(false)}
+                  className="block px-4 py-3 text-sm font-medium text-navy/70 hover:text-navy hover:bg-navy/5 rounded-lg transition-all duration-200 tracking-wide uppercase"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <div className="absolute bottom-8 left-0 right-0 px-6">
+              <div className="h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent mb-4" />
+              <p className="text-center text-[10px] text-taupe/60 tracking-[0.2em] uppercase">Glenda Timola</p>
+            </div>
+          </div>
         </div>
       )}
     </nav>

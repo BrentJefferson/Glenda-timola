@@ -61,7 +61,7 @@ export default function FeaturedListings() {
                           {listing.beds} Beds
                         </span>
                       )}
-                      {listing.baths > 0 && (
+                      {sections.listingSpecs.enabled && listing.baths > 0 && (
                         <span className="flex items-center gap-1">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7M3 7a2 2 0 012-2h14a2 2 0 012 2M3 7h18" />
@@ -69,7 +69,7 @@ export default function FeaturedListings() {
                           {listing.baths} Baths
                         </span>
                       )}
-                      {listing.sqft > 0 && (
+                      {sections.listingSpecs.enabled && listing.sqft > 0 && (
                         <span className="flex items-center gap-1">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />

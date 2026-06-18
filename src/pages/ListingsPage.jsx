@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
+import sections from '../../data/sections.json'
 import listings from '../../data/listings.json'
 
 export default function ListingsPage() {
@@ -69,7 +70,7 @@ export default function ListingsPage() {
                   <p className="font-display text-xl font-bold text-gold mb-2">{listing.price}</p>
                   <p className="text-taupe text-sm mb-3">{listing.address}</p>
                   <div className="flex items-center gap-4 text-sm text-taupe">
-                    {listing.beds > 0 && (
+                    {sections.listingSpecs.enabled && listing.beds > 0 && (
                       <span className="flex items-center gap-1">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                           <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
@@ -93,7 +94,7 @@ export default function ListingsPage() {
                         {listing.sqft} m&sup2;
                       </span>
                     )}
-                  </div>
+                    </div>
                 </div>
               </Link>
             ))}

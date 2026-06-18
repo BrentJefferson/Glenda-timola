@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { marked } from 'marked'
+import sections from '../../data/sections.json'
 import SEO from '../components/SEO'
 import listings from '../../data/listings.json'
 
@@ -183,7 +184,7 @@ export default function ListingDetail() {
               </span>
             </div>
 
-            {(listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
+            {sections.listingSpecs.enabled && (listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
               <div className="flex items-center gap-6 py-6 border-y border-cream mb-8">
                 {listing.beds > 0 && (
                   <div className="text-center">
@@ -316,7 +317,7 @@ export default function ListingDetail() {
           </p>
         </div>
 
-        {(listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
+        {sections.listingSpecs.enabled && (listing.beds > 0 || listing.baths > 0 || listing.sqft > 0) && (
           <div className="flex items-center gap-6 py-3 border-t border-b border-cream">
             {listing.beds > 0 && (
               <div className="text-center">

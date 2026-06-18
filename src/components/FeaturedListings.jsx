@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import sections from '../../data/sections.json'
 import listings from '../../data/listings.json'
 
 export default function FeaturedListings() {
@@ -10,8 +11,7 @@ export default function FeaturedListings() {
             <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">Properties</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">Featured Listings</h2>
             <div className="w-16 h-0.5 bg-gold mt-4" />
-          </div>
-        </div>
+          </div>  </div>
 
         {listings.length === 0 ? (
           <div className="text-center py-20">
@@ -48,12 +48,12 @@ export default function FeaturedListings() {
                       </span>
                     </div>
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-display font-bold text-lg text-navy mb-1">{listing.title}</h3>
-                    <p className="font-display text-xl font-bold text-gold mb-2">{listing.price}</p>
-                    <p className="text-taupe text-sm mb-3">{listing.address}</p>
-                    <div className="flex items-center gap-4 text-sm text-taupe">
-                      {listing.beds > 0 && (
+                    <div className="p-5">
+                      <h3 className="font-display font-bold text-lg text-navy mb-1">{listing.title}</h3>
+                      <p className="font-display text-xl font-bold text-gold mb-2">{listing.price}</p>
+                      <p className="text-taupe text-sm mb-3">{listing.address}</p>
+                      <div className="flex items-center gap-4 text-sm text-taupe">
+                      {sections.listingSpecs.enabled && listing.beds > 0 && (
                         <span className="flex items-center gap-1">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />

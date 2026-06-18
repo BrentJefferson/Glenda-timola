@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import emailjs from '@emailjs/browser'
 import contact from '../../data/contact.json'
-
-emailjs.init('1MLGAM1TFJlk_J06L')
 
 const icons = {
   phone: (
@@ -35,10 +32,21 @@ export default function Contact() {
     e.preventDefault()
     setStatus('sending')
     try {
-      await emailjs.send('service_fynz02e', 'template_pc8j04e', formData)
+      const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: 'service_fynz02e',
+          template_id: 'template_pc8j04e',
+          user_id: '1MLGAM1TFJlk_J06L',
+          template_params: formData
+        })
+      })
+      if (!res.ok) throw new Error(await res.text())
       setStatus('success')
       setFormData({})
-    } catch {
+    } catch (err) {
+      console.error('EmailJS error:', err)
       setStatus('error')
     }
   }

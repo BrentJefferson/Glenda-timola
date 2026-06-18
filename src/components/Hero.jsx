@@ -6,9 +6,6 @@ export default function Hero() {
   const hasPhoto = Boolean(profile.photo)
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 1024
-    if (isMobile) return
-
     let ticking = false
     const handleScroll = () => {
       if (!ticking) {

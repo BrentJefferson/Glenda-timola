@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://glenda-timola.vercel.app/sitemap.xml

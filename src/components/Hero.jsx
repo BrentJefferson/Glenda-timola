@@ -1,15 +1,39 @@
+import { useEffect, useRef } from 'react'
 import profile from '../../data/profile.json'
 
 export default function Hero() {
+  const bgRef = useRef(null)
   const hasPhoto = Boolean(profile.photo)
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024
+    if (isMobile) return
+
+    let ticking = false
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (bgRef.current) {
+            const offset = window.scrollY * 0.3
+            bgRef.current.style.transform = `translateY(${-offset}px)`
+          }
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
-      <div className="absolute inset-0">
+      <div ref={bgRef} className="absolute inset-0 overflow-hidden will-change-transform" style={{ top: '-10%', height: '120%' }}>
         <img
           src="/images/hero-city.jpg"
           alt=""
-          className="w-full h-[130%] object-cover"
+          className="w-full h-full object-cover"
           loading="eager"
         />
       </div>

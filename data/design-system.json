@@ -1,0 +1,134 @@
+{
+  "brand": {
+    "name": "Glenda Timola",
+    "title": "Real Estate Professional",
+    "tagline": "Helping you find the perfect home in Cebu — with trust, expertise, and a personal touch.",
+    "url": "https://cebupropertiesph.com",
+    "area": "Cebu, Philippines"
+  },
+  "colors": {
+    "navy": { "hex": "#1B2A4A", "role": "Primary background, headings, dark sections" },
+    "gold": { "hex": "#C9A84C", "role": "Accent, highlights, CTAs, decorative lines" },
+    "cream": { "hex": "#F5F0EB", "role": "Section backgrounds, soft dividers, card borders" },
+    "taupe": { "hex": "#A0917B", "role": "Body text, secondary labels, muted elements" },
+    "charcoal": { "hex": "#2D2D2D", "role": "Paragraph text on light backgrounds" },
+    "light-gold": { "hex": "#F0E6C8", "role": "Subtle gold tint, hover states" },
+    "white": { "hex": "#FFFFFF", "role": "Page background, card surfaces" }
+  },
+  "typography": {
+    "display": {
+      "font": "Bricolage Grotesque",
+      "fallback": "sans-serif",
+      "usage": "Headings, hero titles, section headers, price display"
+    },
+    "body": {
+      "font": "Sora",
+      "fallback": "sans-serif",
+      "usage": "Paragraphs, descriptions, nav links, all body copy"
+    },
+    "sizes": {
+      "hero-title": "text-5xl md:text-7xl lg:text-8xl",
+      "section-title": "text-4xl md:text-5xl",
+      "card-title": "text-lg",
+      "blog-title": "text-2xl md:text-3xl",
+      "body": "text-sm text-base",
+      "small": "text-xs",
+      "meta": "text-[11px] uppercase tracking-wider"
+    }
+  },
+  "components": {
+    "navbar": {
+      "scroll-behavior": "Transparent → bg-white/95 backdrop-blur-md after 400px scroll",
+      "logo": "Glenda Timola in font-display, fades in on scroll",
+      "desktop-links": "Hidden until scroll, text-taupe hover:text-navy, uppercase tracking-wide",
+      "mobile-menu": "Fixed overlay, bg-navy/80 scrim, bg-white slide-in panel from right, animate-slide-in (0.3s)",
+      "breakpoint": "md (768px)"
+    },
+    "hero": {
+      "background": "public/images/hero-city.jpg, full-bleed",
+      "tint": "Gradient overlay from-navy/70 via-navy/55 to-navy/35",
+      "parallax": "translateY(offset) via requestAnimationFrame, positive direction (image moves down)",
+      "layout": "Centered text stack with CTA button"
+    },
+    "cards": {
+      "listing-card": {
+        "breakpoints": "Responsive grid: < lg blog-style stacked, md+ image+text side-by-side, lg+ 3-column card grid",
+        "desktop": "bg-white border border-cream rounded-xl, hover:shadow, aspect-[4/3] thumbnail, p-5 content",
+        "mobile": "Article flow with gold status line, title, capped thumbnail (max-w-md), specs, View Details link"
+      },
+      "highlight-card": {
+        "style": "Glassmorphism on navy: bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10",
+        "layout": "3-column grid (md:2, lg:3), aspect-[4/3] thumbnail, p-5 content",
+        "elements": "Date pill (bg-gold/20 text-gold), title in white, description line-clamp-2, reference links"
+      }
+    },
+    "carousel": {
+      "usage": "Listing detail + highlights timeline page",
+      "container": "bg-[#1a1a1a] rounded-xl aspect-[16/9] flex items-center justify-center",
+      "nav": "bg-white/90 hover:bg-white text-navy p-2 rounded-full, left/right positioned",
+      "dots": "flex gap-2, active: bg-gold w-5 rounded-full, inactive: bg-white/60 w-2 rounded-full",
+      "fullscreen": "fixed inset-0 z-50 bg-black/95, close top-right, nav arrows bottom counter"
+    },
+    "timeline": {
+      "breakpoints": "Mobile: hidden (no line/dots), Desktop (md+): visible",
+      "line": "absolute left-[19px] w-0.5 bg-gradient-to-b from-gold via-gold/40 to-transparent",
+      "nodes": "w-10 h-10 rounded-full bg-navy border-2 border-gold with star icon, shadow glow",
+      "content": "pl-14, article flow with gold date line, blog-style headings and image carousel"
+    },
+    "buttons": {
+      "primary": "bg-gold text-navy font-semibold rounded-lg hover:bg-gold/90 uppercase tracking-wide text-sm",
+      "outline-gold": "border-2 border-gold text-gold rounded-lg hover:bg-gold hover:text-navy uppercase tracking-wide text-sm",
+      "outline-navy": "border-2 border-navy text-navy rounded-lg hover:bg-navy hover:text-white uppercase tracking-wide text-sm",
+      "pill": "bg-gold/20 text-gold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"
+    },
+    "contact": {
+      "form": "White card with cream borders, focus ring navy/20",
+      "info-blocks": "Icon + text rows, each with unique accent color (green for phone, indigo for email, blue for Facebook, orange for location)",
+      "emailjs": "Direct fetch POST to api.emailjs.com/api/v1.0/email/send"
+    }
+  },
+  "layout": {
+    "max-width": "max-w-6xl (1280px) for sections, max-w-4xl (1024px) for blog/timeline content",
+    "section-padding": "py-24",
+    "section-spacing": "space-y-14 md:space-y-16",
+    "grid-gap": "gap-6"
+  },
+  "responsive": {
+    "mobile-first": true,
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px — mobile menu trigger"
+    },
+    "patterns": {
+      "mobile-blog-desktop-grid": "FeaturedListings: < lg = stacked blog articles, lg+ = 3-column cards",
+      "hidden-timeline-mobile": "HighlightsPage: timeline line/nodes hidden on mobile, full-width content",
+      "image-left-md": "FeaturedListings md-layout: image left (w-56), text right"
+    }
+  },
+  "animation": {
+    "scroll-reveal": "opacity 0 → 1 on intersection (threshold 0.05, 0.6s ease-out)",
+    "parallax": "Hero image translates on scroll with requestAnimationFrame",
+    "hover-zoom": "Card thumbnails scale(1.05) on hover, 0.5s ease",
+    "hover-image-zoom": "Carousel/blog images scale(1.02) on hover, 0.7s ease",
+    "slide-in": "Mobile panel slides from right (translateX(100%) → 0, 0.3s ease-out)",
+    "nav-transition": "Background color transition 0.5s duration on scroll"
+  },
+  "content": {
+    "architecture": "All content in data/*.json files, no CMS",
+    "images": "Hosted on HubSpot CDN (hubspotusercontent-na2.net), uploaded via API, PUBLIC_NOT_INDEXABLE",
+    "feature-toggles": "sections.json enables/disables sections and listingSpecs without code changes",
+    "seo": "OG tags via vite transformIndexHtml (home) + react-helmet-async (per-page), sitemap auto-generated at build",
+    "social": "Facebook contact link in info blocks"
+  },
+  "motion-design-language": {
+    "ethos": "Subtle, luxury, restrained — no flashy animations. Motion serves clarity.",
+    "scroll-reveal": "Single fade-in. No stagger, no y-translation. Applied via IntersectionObserver at module level.",
+    "parallax": "Gentle background shift — the hero image drifts down ~150px over a full page scroll. Implemented with requestAnimationFrame for GPU-composited performance.",
+    "hover": "Images scale up slightly (1.02–1.05x) on hover. Cards lift with shadow. Both use CSS transitions (0.5–0.7s ease).",
+    "nav": "Background crossfades from transparent to frosted white (`bg-white/95 backdrop-blur-md`) after 400px. The brand mark fades in simultaneously.",
+    "mobile-menu": "Slides in from the right with a 0.3s ease-out curve. The backdrop scrim uses no animation — it appears instantly for a snappy feel.",
+    "timeline": "Static on mobile (hidden line). On desktop, the gold gradient line provides a sense of vertical journey without animation."
+  }
+}

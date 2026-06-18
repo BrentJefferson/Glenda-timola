@@ -1,0 +1,396 @@
+{
+  "meta": {
+    "project": "Glenda Timola — Real Estate Agent Portfolio",
+    "stack": "Vite + React 19 + Tailwind v4 (CSS-first config, no tailwind.config.js)",
+    "fonts": "Bricolage Grotesque (display), Sora (body)",
+    "deployment": "Vercel, auto-deploy from GitHub master",
+    "content": "All data-driven via data/*.json — no CMS"
+  },
+  "components": [
+    {
+      "name": "Navbar",
+      "file": "src/components/Navbar.jsx",
+      "description": "Fixed top navigation with scroll-aware glassmorphism, desktop links, mobile slide-in panel.",
+      "props": "None (reads data/sections.json for link visibility)",
+      "key-classes": {
+        "default": "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        "scrolled": "bg-white/95 backdrop-blur-md shadow-[0_1px_4px_rgba(0,0,0,0.06)]",
+        "transparent": "bg-transparent",
+        "mobile-panel": "fixed inset-0 z-[60] bg-navy/80 scrim + bg-white slide-in panel w-72 animate-slide-in",
+        "desktop-links": "hidden md:flex items-center gap-8 text-sm tracking-wide uppercase text-taupe hover:text-navy"
+      },
+      "behavior": {
+        "scroll-threshold": 400,
+        "logo-fade": "Glenda Timola text fades from opacity-0 to opacity-100 on scroll",
+        "mobile-breakpoint": "md (768px)"
+      },
+      "reuse-template": {
+        "copy": ["Navbar.jsx", "Navbar.jsx"],
+        "change": ["links config (linkConfig array)", "logo text", "scroll threshold if needed"]
+      }
+    },
+    {
+      "name": "Hero",
+      "file": "src/components/Hero.jsx",
+      "description": "Full-screen hero with parallax background, gradient overlay, decorative grid pattern, agent photo (desktop only), CTA buttons.",
+      "props": "None (reads data/profile.json)",
+      "key-classes": {
+        "section": "relative min-h-screen",
+        "parallax-bg": "absolute inset-0 overflow-hidden will-change-transform top-[-10%] h-[120%]",
+        "overlay": "absolute inset-0 bg-gradient-to-r from-navy/70 via-navy/55 to-navy/35",
+        "pattern": "absolute inset-0 opacity-[0.04] SVG grid pattern",
+        "photo-desktop": "hidden xl:block shrink-0 self-end h-[85vh] w-auto",
+        "title": "font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white",
+        "cta-primary": "bg-gold text-navy font-semibold px-8 py-3 rounded-lg hover:bg-gold/90 uppercase tracking-wide text-sm",
+        "cta-secondary": "border border-white/30 text-white px-8 py-3 rounded-lg hover:bg-white/10 uppercase tracking-wide text-sm"
+      },
+      "behavior": {
+        "parallax": "requestAnimationFrame, translateY(offset) with offset = scrollY * 0.3, positive direction (image moves down)",
+        "photo": "Only shown on xl+ (1280px), positioned at bottom-left of hero",
+        "scroll-indicator": "Animated bounce chevron at bottom center"
+      },
+      "reuse-template": {
+        "copy": ["Hero.jsx"],
+        "change": ["Background image path", "profile.json data", "CTA href targets"]
+      }
+    },
+    {
+      "name": "MobilePortrait",
+      "file": "src/components/MobilePortrait.jsx",
+      "description": "Agent photo card that appears between hero and services on mobile/tablet. Hidden on xl+.",
+      "props": "None (reads data/profile.json)",
+      "key-classes": {
+        "container": "relative xl:hidden -mt-16 z-20 px-6 max-w-6xl mx-auto",
+        "card": "bg-white rounded-2xl shadow-[0_8px_32px_rgba(27,42,74,0.12)] border border-cream p-5 flex items-center gap-5",
+        "photo": "w-28 h-40 rounded-xl object-contain bg-cream/50"
+      },
+      "reuse-template": {
+        "copy": ["MobilePortrait.jsx"],
+        "change": ["profile.json photo URL"]
+      }
+    },
+    {
+      "name": "Services",
+      "file": "src/components/Services.jsx",
+      "description": "Services section with glassmorphism cards on navy background, gold glow orbs, responsive grid.",
+      "props": "None (reads data/services.json)",
+      "key-classes": {
+        "section": "py-24 bg-navy relative overflow-hidden",
+        "glow-orbs": "absolute inset-0 opacity-[0.03] with rounded-full bg-gold blur-3xl positioned top-left and bottom-right",
+        "card": "w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300",
+        "icon": "text-white/50 group-hover:text-gold transition-colors duration-300",
+        "title": "font-display font-bold text-lg text-white",
+        "description": "text-white/60 text-sm leading-relaxed"
+      },
+      "reuse-template": {
+        "copy": ["Services.jsx", "data/services.json"],
+        "change": ["services.json content", "iconMap if new icons needed"]
+      }
+    },
+    {
+      "name": "FeaturedListings",
+      "file": "src/components/FeaturedListings.jsx",
+      "description": "Featured properties section with 3-tier responsive layout: mobile blog, tablet horizontal, desktop 3-column card grid.",
+      "props": "None (reads data/listings.json, data/sections.json)",
+      "key-classes": {
+        "section": "py-24 bg-white",
+        "desktop-grid": "hidden lg:grid lg:grid-cols-3 gap-6",
+        "desktop-card": "rounded-xl overflow-hidden bg-white border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.12)]",
+        "desktop-thumb": "aspect-[4/3] bg-cream relative overflow-hidden",
+        "mobile-blog": "lg:hidden max-w-4xl mx-auto space-y-14 md:space-y-16",
+        "mobile-card": "border-b border-cream pb-10 md:pb-14 last:border-b-0",
+        "mobile-layout": "md:flex md:gap-6 md:items-start",
+        "mobile-thumb": "md:w-56 md:shrink-0 rounded-xl overflow-hidden",
+        "price": "font-display text-xl font-bold text-gold"
+      },
+      "behavior": {
+        "responsive": "< md: stacked blog-style | md-lg: image left (w-56), text right | lg+: 3-column grid",
+        "specs-toggle": "Honors sections.listingSpecs.enabled flag"
+      },
+      "reuse-template": {
+        "copy": ["FeaturedListings.jsx"],
+        "change": ["Reads from listings.json", "adjust grid columns for different counts"]
+      }
+    },
+    {
+      "name": "Highlights (Homepage)",
+      "file": "src/components/Highlights.jsx",
+      "description": "Achievement cards on navy glassmorphism background. 3-column grid with expandable descriptions (click card or See More). Full image preview on click? Not on homepage — cards use first image as thumbnail only.",
+      "props": "None (reads data/highlights.json)",
+      "key-classes": {
+        "section": "py-24 bg-navy relative overflow-hidden with gold glow orbs",
+        "card": "rounded-xl overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 cursor-pointer",
+        "thumb": "aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500",
+        "date-pill": "bg-gold/20 text-gold text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider",
+        "description": "text-white/60 text-sm leading-relaxed line-clamp-2 (collapsed) / no clamp (expanded)"
+      },
+      "behavior": {
+        "expand": "Click card or 'See More' button toggles line-clamp-2. Reference links have stopPropagation.",
+        "featured-filter": "Only items with featured: true in data/highlights.json"
+      },
+      "reuse-template": {
+        "copy": ["Highlights.jsx", "data/highlights.json"],
+        "change": ["highlights.json content", "featured flag on specific items"]
+      }
+    },
+    {
+      "name": "HighlightsPage (Timeline)",
+      "file": "src/pages/HighlightsPage.jsx",
+      "description": "Full timeline page at /highlights. Desktop: vertical timeline with gold line and star nodes. Mobile: clean stacked layout. Each entry has a carousel canvas (listing-detail style) with prev/next, dot indicators, fullscreen lightbox.",
+      "props": "None (reads data/highlights.json)",
+      "key-classes": {
+        "hero-banner": "pt-32 pb-24 bg-navy relative overflow-hidden with gold glow orbs",
+        "back-link": "inline-flex items-center gap-2 text-taupe hover:text-gold text-sm uppercase tracking-wide",
+        "timeline-line": "hidden md:block absolute left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold via-gold/40 to-transparent",
+        "timeline-node": "hidden md:flex absolute left-0 top-1 w-10 h-10 rounded-full bg-navy border-2 border-gold items-center justify-center shadow-[0_0_12px_rgba(201,168,76,0.2)]",
+        "content": "pl-0 md:pl-14",
+        "carousel": "relative rounded-xl overflow-hidden bg-[#1a1a1a] aspect-[16/9] flex items-center justify-center",
+        "carousel-nav": "bg-white/90 hover:bg-white text-navy p-2 rounded-full",
+        "carousel-dots": "active: bg-gold w-5, inactive: bg-white/60 w-2",
+        "fullscreen": "fixed inset-0 z-50 bg-black/95 with close button, nav arrows, bottom counter"
+      },
+      "behavior": {
+        "sort": "Chronological descending by date",
+        "mobile-timeline": "Line and nodes hidden, full-width content",
+        "carousel": "Per-entry image viewer. Click opens fullscreen lightbox. Keyboard nav (Escape, Arrow keys).",
+        "loading": "Spinner shown while carousel image loads, hidden on img onLoad"
+      },
+      "reuse-template": {
+        "copy": ["HighlightsPage.jsx", "data/highlights.json"],
+        "change": ["highlights.json content", "title/description text in hero banner"]
+      }
+    },
+    {
+      "name": "ListingDetail",
+      "file": "src/pages/ListingDetail.jsx",
+      "description": "Individual listing page at /listing/:id. Image carousel with fullscreen lightbox, breadcrumbs, specs panel, markdown caption, sidebar with price and contact CTAs. Separate desktop and mobile layouts.",
+      "props": "None (reads data/listings.json via useParams id)",
+      "key-classes": {
+        "desktop": "hidden lg:block max-w-6xl mx-auto px-6 py-12",
+        "mobile": "lg:hidden px-4 pt-4 space-y-5",
+        "carousel": "relative rounded-2xl overflow-hidden bg-[#1a1a1a] aspect-[16/9] flex items-center justify-center",
+        "carousel-nav": "bg-white/90 hover:bg-white text-navy p-2 rounded-full",
+        "carousel-dots": "active: bg-gold w-6, inactive: bg-white/70 w-2",
+        "fullscreen": "fixed inset-0 z-50 bg-black/95",
+        "sidebar": "bg-cream rounded-xl p-6 sticky top-24",
+        "specs": "font-display text-2xl font-bold text-navy with labels in text-taupe text-xs uppercase"
+      },
+      "behavior": {
+        "image-preload": "new Image() in useEffect for carousel + fullscreen, loading spinner",
+        "keyboard": "Escape closes fullscreen, ArrowLeft/Right navigates",
+        "seo": "Per-page OG tags via react-helmet-async, Apartment schema.org JSON-LD",
+        "breadcrumbs": "Home > Listings > Listing Title"
+      },
+      "reuse-template": {
+        "copy": ["ListingDetail.jsx"],
+        "change": ["listings.json data"]
+      }
+    },
+    {
+      "name": "ListingsPage",
+      "file": "src/pages/ListingsPage.jsx",
+      "description": "All listings grid page at /listings. BreadcrumbList schema, 3-column grid of listing cards.",
+      "props": "None (reads data/listings.json)",
+      "key-classes": "Same card pattern as FeaturedListings desktop grid",
+      "reuse-template": {
+        "copy": ["ListingsPage.jsx"],
+        "change": ["listings.json data"]
+      }
+    },
+    {
+      "name": "Contact",
+      "file": "src/components/Contact.jsx",
+      "description": "Contact section with form (EmailJS direct fetch) and info blocks (phone, email, Facebook, location). Each info block has unique accent color.",
+      "props": "None (reads data/contact.json)",
+      "key-classes": {
+        "section": "py-24 bg-white",
+        "form": "space-y-5",
+        "input": "w-full px-4 py-3 rounded-lg border border-cream bg-white focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm",
+        "submit": "w-full bg-gold text-navy font-semibold py-3 rounded-lg hover:bg-gold/90 uppercase tracking-wide text-sm",
+        "info-icon-wrapper": "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
+        "info-icon-colors": "Phone: bg-emerald-50 text-emerald-600 | Email: bg-indigo-50 text-indigo-600 | Facebook: bg-blue-50 text-blue-600 | Service Area: bg-orange-50 text-orange-600"
+      },
+      "behavior": {
+        "form-action": "POST to https://api.emailjs.com/api/v1.0/email/send with service_id, template_id, user_id",
+        "states": "idle → sending → success/error",
+        "info-blocks": "Phone renders tel: link, Email renders mailto: link, Facebook renders external link with target=_blank"
+      },
+      "reuse-template": {
+        "copy": ["Contact.jsx", "data/contact.json"],
+        "change": ["contact.json content", "EmailJS credentials", "info-icons if adding new block types"]
+      }
+    },
+    {
+      "name": "Testimonials",
+      "file": "src/components/Testimonials.jsx",
+      "description": "Testimonials section (currently disabled). Supports text, image screenshots with lightbox, YouTube embeds, and direct video (mp4) playback.",
+      "props": "None (reads data/testimonials.json)"
+    },
+    {
+      "name": "TestimonialsPage",
+      "file": "src/pages/TestimonialsPage.jsx",
+      "description": "Full testimonials page at /testimonials (currently disabled via sections.json). Same media components as Testimonials.",
+      "props": "None (reads data/testimonials.json)"
+    },
+    {
+      "name": "FAQ",
+      "file": "src/components/FAQ.jsx",
+      "description": "Accordion-style FAQ section with expand/collapse animation, FAQPage schema.org structured data injected via Helmet.",
+      "props": "None (reads data/faq.json)",
+      "key-classes": {
+        "section": "py-24 bg-white",
+        "accordion": "border border-cream rounded-xl overflow-hidden transition-all duration-300",
+        "button": "w-full flex items-center justify-between px-6 py-5 text-left hover:bg-cream/50",
+        "chevron": "rotate-180 transition-transform duration-300 when open",
+        "panel": "transition-all duration-300 overflow-hidden max-h-0 opacity-0 / max-h-[500px] opacity-100"
+      },
+      "reuse-template": {
+        "copy": ["FAQ.jsx", "data/faq.json"],
+        "change": ["faq.json content", "section title/subtitle text"]
+      }
+    },
+    {
+      "name": "Footer",
+      "file": "src/components/Footer.jsx",
+      "description": "Simple dark footer with name, title, copyright.",
+      "props": "None",
+      "key-classes": {
+        "footer": "bg-navy text-white/70 py-12",
+        "container": "max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6"
+      },
+      "reuse-template": {
+        "copy": ["Footer.jsx"],
+        "change": ["Name text", "Title text"]
+      }
+    },
+    {
+      "name": "ScrollToTop",
+      "file": "src/components/ScrollToTop.jsx",
+      "description": "Floating back-to-top button (gold circle with chevron) appears after 400px scroll.",
+      "props": "None",
+      "key-classes": {
+        "button": "fixed bottom-8 right-8 z-40 w-12 h-12 rounded-full bg-gold text-navy shadow-lg hover:bg-navy hover:text-gold",
+        "hidden": "opacity-0 translate-y-4 pointer-events-none",
+        "visible": "opacity-100 translate-y-0 pointer-events-auto"
+      },
+      "reuse-template": {
+        "copy": ["ScrollToTop.jsx"],
+        "change": ["Nothing - fully generic"]
+      }
+    },
+    {
+      "name": "SEO",
+      "file": "src/components/SEO.jsx",
+      "description": "React component wrapping react-helmet-async for per-page SEO meta, OG tags, canonical URL, JSON-LD.",
+      "props": {
+        "title": "Page-specific title (appended to brand name)",
+        "description": "Meta description",
+        "image": "OG image URL",
+        "path": "Page path for canonical URL",
+        "type": "OG type (default: website)",
+        "jsonLd": "Optional JSON-LD structured data object"
+      },
+      "defaults": "Reads from data/profile.json for brand name, title, tagline, photo",
+      "reuse-template": {
+        "copy": ["SEO.jsx"],
+        "change": ["siteUrl constant", "profile.json data"]
+      }
+    }
+  ],
+  "design-patterns": [
+    {
+      "name": "Scroll Reveal",
+      "usage": "Fade-in on scroll via IntersectionObserver (threshold 0.05, 0.6s ease-out). No y-translation — pure opacity.",
+      "implementation": "Module-level observer in App.jsx, .scroll-reveal CSS class, observe() called on route change + 300ms timeout"
+    },
+    {
+      "name": "Image Carousel",
+      "usage": "Listing detail + highlights timeline. bg-[#1a1a1a] container, aspect-[16/9], prev/next buttons, dot indicators, click-to-fullscreen.",
+      "implementation": "State: currentIndex. useEffect preloads next image via new Image(). Fullscreen: fixed z-50 overlay with keyboard nav."
+    },
+    {
+      "name": "Glassmorphism on Navy",
+      "usage": "Cards on dark sections (Services, Highlights homepage). bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10",
+      "implementation": "Section bg-navy with gold glow orbs (absolute blur-3xl circles at 3% opacity)"
+    },
+    {
+      "name": "Blog-Style on Mobile, Grid on Desktop",
+      "usage": "FeaturedListings: < lg stacked articles, lg+ card grid. HighlightsPage: mobile no timeline, desktop full timeline.",
+      "implementation": "Duplicate layout markup with responsive visibility classes (lg:hidden / hidden lg:...)"
+    },
+    {
+      "name": "Feature Toggles",
+      "usage": "data/sections.json controls which homepage sections render and whether listing specs show.",
+      "implementation": "sectionMap + order array in App.jsx filters by sections.home[key].enabled. Specs gated by sections.listingSpecs.enabled"
+    },
+    {
+      "name": "Data-Driven Content",
+      "usage": "Every section reads from data/*.json. No hardcoded content in components.",
+      "implementation": "JSON files imported directly into components. Images hosted on HubSpot CDN, referenced by URL."
+    }
+  ],
+  "responsive-strategy": {
+    "mobile-first": true,
+    "breakpoints": {
+      "sm": "640px — gold line visible in blog entries",
+      "md": "768px — tablet horizontal layout, timeline visible, 2-col grids",
+      "lg": "1024px — desktop card grids (3-col), mobile blog hidden",
+      "xl": "1280px — hero photo visible, mobile menu trigger"
+    },
+    "common-patterns": [
+      "Stack vertically on mobile, horizontal on md/tablet, multi-column grid on lg+",
+      "Hidden timeline decoration on mobile, visible on md+",
+      "Responsive typography: text-2xl on mobile, text-3xl on desktop for blog titles",
+      "Section padding: py-24 (consistent across all sections)"
+    ]
+  },
+  "animation-system": {
+    "scroll-reveal": { "property": "opacity 0→1", "duration": "0.6s", "easing": "ease-out", "trigger": "IntersectionObserver threshold 0.05" },
+    "parallax": { "property": "translateY", "trigger": "scroll", "amount": "scrollY * 0.3", "technique": "requestAnimationFrame" },
+    "hover-zoom": { "property": "scale(1.05)", "duration": "0.5s", "easing": "ease", "target": "card thumbnails" },
+    "hover-zoom-subtle": { "property": "scale(1.02)", "duration": "0.7s", "easing": "ease", "target": "blog images, highlight images" },
+    "slide-in": { "property": "translateX(100%)→0", "duration": "0.3s", "easing": "ease-out", "target": "mobile side panel" },
+    "nav-bg": { "property": "background-color", "duration": "0.5s", "trigger": "scroll > 400px" }
+  },
+  "data-files": [
+    { "file": "data/profile.json", "purpose": "Agent name, title, tagline, bio, photo URL, languages, area" },
+    { "file": "data/services.json", "purpose": "Service cards with icon key, title, description" },
+    { "file": "data/listings.json", "purpose": "All property listings with images, specs, caption, status, price" },
+    { "file": "data/highlights.json", "purpose": "Achievements with images, dates, descriptions, reference links, featured flag" },
+    { "file": "data/testimonials.json", "purpose": "Testimonials with text, optional image/video" },
+    { "file": "data/contact.json", "purpose": "Form fields, info blocks, button text" },
+    { "file": "data/faq.json", "purpose": "Q&A pairs for FAQ accordion" },
+    { "file": "data/sections.json", "purpose": "Feature toggles for homepage sections + listingSpecs" },
+    { "file": "vite.config.js", "purpose": "Build-time OG tag injection, sitemap generation" }
+  ],
+  "starter-kit-instructions": {
+    "to-reuse": [
+      "Copy src/components/*.jsx (all are self-contained, no prop drilling)",
+      "Copy src/pages/*.jsx (routed pages)",
+      "Copy src/App.jsx (routes + section map + IntersectionObserver)",
+      "Copy src/index.css (Tailwind v4 theme + scroll-reveal)",
+      "Copy vite.config.js (OG tags + sitemap plugin)",
+      "Copy vercel.json (SPA rewrites)",
+      "Create data/*.json structure"
+    ],
+    "to-change": [
+      "data/profile.json (agent info, photo URL)",
+      "data/services.json (service offerings)",
+      "data/listings.json (property listings)",
+      "data/highlights.json (achievements)",
+      "data/testimonials.json (reviews)",
+      "data/contact.json (form, info blocks, EmailJS creds)",
+      "data/faq.json (questions)",
+      "data/sections.json (toggle sections on/off)",
+      "vite.config.js: siteUrl, ogImage, profile import path",
+      "public/images/hero-city.jpg (hero background)",
+      "src/components/SEO.jsx: siteUrl constant",
+      "src/components/Contact.jsx: EmailJS credentials in handleSubmit"
+    ],
+    "to-install": [
+      "npm create vite@latest . -- --template react",
+      "npm install tailwindcss @tailwindcss/vite react-router-dom react-helmet-async marked",
+      "Add @import 'tailwindcss' in index.css"
+    ]
+  }
+}

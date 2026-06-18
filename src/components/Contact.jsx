@@ -2,6 +2,8 @@ import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import contact from '../../data/contact.json'
 
+emailjs.init('1MLGAM1TFJlk_J06L')
+
 const icons = {
   phone: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -24,8 +26,6 @@ const icons = {
 export default function Contact() {
   const [formData, setFormData] = useState({})
   const [status, setStatus] = useState('idle')
-
-  emailjs.init('1MLGAM1TFJlk_J06L')
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value })

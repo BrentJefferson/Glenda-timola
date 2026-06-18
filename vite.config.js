@@ -9,7 +9,7 @@ const listings = JSON.parse(fs.readFileSync('./data/listings.json', 'utf-8'))
 const ogImage = profile.photo || ''
 const siteTitle = `${profile.name} — ${profile.title} in Cebu`
 const siteDesc = profile.description || profile.tagline
-const siteUrl = 'https://glenda-timola.vercel.app'
+const siteUrl = 'https://cebupropertiesph.com'
 
 export default defineConfig({
   plugins: [

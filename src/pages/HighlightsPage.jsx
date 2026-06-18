@@ -10,17 +10,26 @@ const star = (
 )
 
 export default function HighlightsPage() {
+  const [carouselIdx, setCarouselIdx] = useState({})
+  const [carouselLoading, setCarouselLoading] = useState({})
   const [fullscreen, setFullscreen] = useState(null)
   const [fsItem, setFsItem] = useState(null)
-  const [fsIndex, setFsIndex] = useState(0)
   const [fsLoading, setFsLoading] = useState(true)
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
+  const setCurrent = (id, idx) => {
+    setCarouselLoading((prev) => ({ ...prev, [id]: true }))
+    setCarouselIdx((prev) => ({ ...prev, [id]: idx }))
+  }
+  const prev = (item) => setCurrent(item.id, ((carouselIdx[item.id] || 0) - 1 + item.images.length) % item.images.length)
+  const next = (item) => setCurrent(item.id, ((carouselIdx[item.id] || 0) + 1) % item.images.length)
+
+  const onCarouselImgLoad = (id) => setCarouselLoading((prev) => ({ ...prev, [id]: false }))
+
   const openFullscreen = (item, index) => {
     setFsItem(item)
-    setFsIndex(index)
-    setFullscreen(0)
+    setFullscreen(index)
   }
   const closeFullscreen = () => { setFullscreen(null); setFsItem(null) }
   const prevFs = () => setFullscreen((fullscreen - 1 + fsItem.images.length) % fsItem.images.length)
@@ -91,120 +100,116 @@ export default function HighlightsPage() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <div className="relative">
-            <div className="absolute left-[15px] md:left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold via-gold/40 to-transparent" />
+            <div className="hidden md:block absolute left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold via-gold/40 to-transparent" />
 
             <div className="space-y-12 md:space-y-16">
-              {sorted.map((item, i) => (
-                <div key={item.id} className="relative pl-11 md:pl-14 scroll-reveal" style={{ transitionDelay: `${i * 100}ms` }}>
-                  <div className="absolute left-0 top-1 w-8 h-8 md:w-10 md:h-10 rounded-full bg-navy border-2 border-gold flex items-center justify-center text-gold shadow-[0_0_12px_rgba(201,168,76,0.2)]">
-                    {star}
-                  </div>
+              {sorted.map((item, i) => {
+                const currentIdx = carouselIdx[item.id] || 0
+                const loading = carouselLoading[item.id] !== false && item.images.length > 0
 
-                  <article className="pb-10 md:pb-14 border-b border-cream last:border-b-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="w-6 h-px bg-gold shrink-0 hidden sm:block" />
-                      <time className="text-gold text-xs font-display font-semibold tracking-[0.15em] uppercase">{item.date}</time>
+                return (
+                  <div key={item.id} className="relative pl-0 md:pl-14 scroll-reveal" style={{ transitionDelay: `${i * 100}ms` }}>
+                    <div className="hidden md:flex absolute left-0 top-1 w-10 h-10 rounded-full bg-navy border-2 border-gold items-center justify-center text-gold shadow-[0_0_12px_rgba(201,168,76,0.2)]">
+                      {star}
                     </div>
 
-                    <h2 className="font-display font-bold text-2xl md:text-3xl text-navy mb-4 leading-tight">{item.title}</h2>
+                    <article className="pb-10 md:pb-14 border-b border-cream last:border-b-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="w-6 h-px bg-gold shrink-0 hidden sm:block" />
+                        <time className="text-gold text-xs font-display font-semibold tracking-[0.15em] uppercase">{item.date}</time>
+                      </div>
 
-                    {item.images.length > 0 && (
-                      <div className={`mb-6 ${item.images.length > 1 ? 'grid gap-2 md:gap-3 grid-cols-2' : ''}`}>
-                        {item.images.map((src, idx) => (
-                          <div
-                            key={idx}
-                            className={`rounded-xl overflow-hidden bg-white cursor-pointer group/image ${item.images.length === 1 ? 'max-w-md' : ''}`}
-                            onClick={() => openFullscreen(item, idx)}
-                          >
-                            <div className="relative">
-                              <img
-                                src={src}
-                                alt={`${item.title} — image ${idx + 1}`}
-                                className="w-full h-full object-cover group-hover/image:scale-[1.02] transition-transform duration-700"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                <svg
-                                  width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5"
-                                  className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 drop-shadow-lg"
-                                >
-                                  <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
-                                </svg>
-                              </div>
+                      <h2 className="font-display font-bold text-2xl md:text-3xl text-navy mb-5 leading-tight">{item.title}</h2>
+
+                      {item.images.length > 0 && (
+                        <div className="relative rounded-xl overflow-hidden bg-[#1a1a1a] mb-5 aspect-[16/9] flex items-center justify-center">
+                          {loading && (
+                            <div className="absolute inset-0 flex items-center justify-center z-10">
+                              <div className="w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          )}
+                          <img
+                            src={item.images[currentIdx]}
+                            alt={`${item.title} — photo ${currentIdx + 1} of ${item.images.length}`}
+                            className={`w-full h-full object-contain cursor-pointer transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
+                            onClick={() => openFullscreen(item, currentIdx)}
+                            onLoad={() => onCarouselImgLoad(item.id)}
+                          />
+                          {item.images.length > 1 && (
+                            <>
+                              <button
+                                onClick={() => prev(item)}
+                                className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all"
+                                aria-label="Previous image"
+                              >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+                              </button>
+                              <button
+                                onClick={() => next(item)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-navy p-2 rounded-full transition-all"
+                                aria-label="Next image"
+                              >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+                              </button>
+                              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                                {item.images.map((_, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => setCurrent(item.id, i)}
+                                    className={`w-2 h-2 rounded-full transition-all ${i === currentIdx ? 'bg-gold w-5' : 'bg-white/60'}`}
+                                  />
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
 
-                    <p className="text-taupe text-base leading-relaxed mb-5">{item.description}</p>
+                      <p className="text-taupe text-base leading-relaxed mb-5">{item.description}</p>
 
-                    {item.references.length > 0 && (
-                      <div className="flex flex-wrap gap-x-6 gap-y-1">
-                        {item.references.map((ref, idx) => (
-                          <a
-                            key={idx}
-                            href={ref.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-navy/50 text-xs hover:text-gold transition-colors duration-200"
-                          >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
-                              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
-                            </svg>
-                            {ref.label}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </article>
-                </div>
-              ))}
+                      {item.references.length > 0 && (
+                        <div className="flex flex-wrap gap-x-6 gap-y-1">
+                          {item.references.map((ref, idx) => (
+                            <a
+                              key={idx}
+                              href={ref.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-navy/50 text-xs hover:text-gold transition-colors duration-200"
+                            >
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
+                                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
+                              </svg>
+                              {ref.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </article>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {fullscreen !== null && fsItem && (
-        <div
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
-          onClick={closeFullscreen}
-        >
-          <button
-            onClick={(e) => { e.stopPropagation(); closeFullscreen() }}
-            className="absolute top-4 right-4 text-white/80 hover:text-white p-2 z-10"
-            aria-label="Close"
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={closeFullscreen}>
+          <button onClick={(e) => { e.stopPropagation(); closeFullscreen() }} className="absolute top-4 right-4 text-white/80 hover:text-white p-2 z-10" aria-label="Close">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
 
           {fsItem.images.length > 1 && (
             <>
-              <button
-                onClick={(e) => { e.stopPropagation(); prevFs() }}
-                disabled={fsLoading}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed"
-                aria-label="Previous"
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
+              <button onClick={(e) => { e.stopPropagation(); prevFs() }} disabled={fsLoading} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed" aria-label="Previous">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
               </button>
-              <button
-                onClick={(e) => { e.stopPropagation(); nextFs() }}
-                disabled={fsLoading}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed"
-                aria-label="Next"
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
+              <button onClick={(e) => { e.stopPropagation(); nextFs() }} disabled={fsLoading} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 z-10 disabled:opacity-40 disabled:cursor-not-allowed" aria-label="Next">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
               </button>
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium z-10">
-                {fullscreen + 1} / {fsItem.images.length}
-              </div>
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium z-10">{fullscreen + 1} / {fsItem.images.length}</div>
             </>
           )}
 
@@ -213,13 +218,7 @@ export default function HighlightsPage() {
               <div className="w-10 h-10 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
             </div>
           )}
-          <img
-            src={fsItem.images[fullscreen]}
-            alt={`${fsItem.title} — fullscreen photo ${fullscreen + 1} of ${fsItem.images.length}`}
-            className={`max-w-full max-h-full object-contain p-4 transition-opacity duration-300 ${fsLoading ? 'opacity-0' : 'opacity-100'}`}
-            onClick={(e) => e.stopPropagation()}
-            onLoad={() => setFsLoading(false)}
-          />
+          <img src={fsItem.images[fullscreen]} alt={`${fsItem.title} — fullscreen photo ${fullscreen + 1} of ${fsItem.images.length}`} className={`max-w-full max-h-full object-contain p-4 transition-opacity duration-300 ${fsLoading ? 'opacity-0' : 'opacity-100'}`} onClick={(e) => e.stopPropagation()} onLoad={() => setFsLoading(false)} />
         </div>
       )}
     </>

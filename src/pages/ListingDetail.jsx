@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { marked } from 'marked'
+import SEO from '../components/SEO'
 import listings from '../../data/listings.json'
 
 export default function ListingDetail() {
@@ -23,6 +24,27 @@ export default function ListingDetail() {
   const [imageLoading, setImageLoading] = useState(true)
   const [fsLoading, setFsLoading] = useState(true)
   const hasImages = listing.images && listing.images.length > 0
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Apartment',
+    name: listing.title,
+    description: `${listing.beds === 0 ? 'Studio' : listing.beds + ' bedroom'} ${listing.baths} bathroom condo in ${listing.address} — ${listing.price}`,
+    image: listing.thumbnail || (listing.images ? listing.images[0] : ''),
+    offers: {
+      '@type': 'Offer',
+      price: listing.price.replace(/[^0-9,]/g, '').trim(),
+      priceCurrency: 'PHP',
+      availability: 'https://schema.org/InStock',
+    },
+    address: { '@type': 'PostalAddress', addressLocality: listing.address },
+    floorSize: listing.sqft > 0 ? { '@type': 'QuantitativeValue', value: listing.sqft, unitCode: 'MTK' } : undefined,
+    numberOfBedrooms: listing.beds,
+    numberOfBathroomsTotal: listing.baths,
+  }
+
+  const listingTitle = `${listing.title} — ${listing.address} | ${listing.beds === 0 ? 'Studio' : listing.beds + ' Bed'}, ${listing.baths} Bath`
+  const listingDesc = `${listing.beds === 0 ? 'Studio' : listing.beds + '-bedroom'} ${listing.baths}-bathroom condo for ${listing.status.toLowerCase()} in ${listing.address}. ${listing.price}. Contact Glenda Timola.`
 
   useEffect(() => {
     let cancelled = false
@@ -65,9 +87,24 @@ export default function ListingDetail() {
 
   return (
     <div className="min-h-screen pt-16 bg-white">
+      <SEO
+        title={listingTitle}
+        description={listingDesc}
+        image={listing.thumbnail || (listing.images ? listing.images[0] : '')}
+        path={`/listing/${listing.id}`}
+        type="website"
+        jsonLd={jsonLd}
+      />
 
       {/* 🖥️ DESKTOP — original layout */}
       <div className="hidden lg:block max-w-6xl mx-auto px-6 py-12">
+        <nav className="flex items-center gap-2 text-sm text-taupe mb-4">
+          <Link to="/" className="hover:text-navy transition-colors">Home</Link>
+          <span>/</span>
+          <Link to="/listings" className="hover:text-navy transition-colors">Listings</Link>
+          <span>/</span>
+          <span className="text-navy font-medium truncate max-w-[300px]">{listing.title}</span>
+        </nav>
         <Link to="/#listings" className="inline-flex items-center gap-2 text-taupe hover:text-navy transition-colors mb-8 text-sm uppercase tracking-wide">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -84,7 +121,7 @@ export default function ListingDetail() {
             )}
             <img
               src={listing.images[currentImage]}
-              alt={listing.title}
+              alt={`${listing.title} — photo ${currentImage + 1} of ${listing.images.length}`}
               className={`w-full h-full object-contain cursor-pointer transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
               onClick={() => openFullscreen(currentImage)}
               onLoad={() => setImageLoading(false)}
@@ -192,6 +229,11 @@ export default function ListingDetail() {
       {/* 📱 MOBILE */}
       <div className="lg:hidden px-4 pt-4 space-y-5">
 
+        <nav className="flex items-center gap-1.5 text-[11px] text-taupe mb-1">
+          <Link to="/" className="hover:text-navy transition-colors">Home</Link>
+          <span>/</span>
+          <span className="text-navy truncate max-w-[200px]">{listing.title}</span>
+        </nav>
         <Link to="/#listings" className="inline-flex items-center gap-1.5 text-taupe hover:text-navy transition-colors text-xs uppercase tracking-wide">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -208,7 +250,7 @@ export default function ListingDetail() {
             )}
             <img
               src={listing.images[currentImage]}
-              alt={listing.title}
+              alt={`${listing.title} — photo ${currentImage + 1} of ${listing.images.length}`}
               className={`w-full h-full object-contain cursor-pointer transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
               onClick={() => openFullscreen(currentImage)}
               onLoad={() => setImageLoading(false)}
@@ -355,7 +397,7 @@ export default function ListingDetail() {
           )}
           <img
             src={listing.images[fullscreen]}
-            alt={listing.title}
+            alt={`${listing.title} — fullscreen photo ${fullscreen + 1} of ${listing.images.length}`}
             className={`max-w-full max-h-full object-contain p-4 transition-opacity duration-300 ${fsLoading ? 'opacity-0' : 'opacity-100'}`}
             onClick={(e) => e.stopPropagation()}
             onLoad={() => setFsLoading(false)}

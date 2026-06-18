@@ -5,6 +5,7 @@
     "services": { "enabled": true },
     "featuredListings": { "enabled": true },
     "testimonials": { "enabled": false },
+    "faq": { "enabled": false },
     "contact": { "enabled": true }
   }
 }

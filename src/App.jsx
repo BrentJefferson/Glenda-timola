@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useRef } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
+import SEO from './components/SEO'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
 import FeaturedListings from './components/FeaturedListings'
 import Testimonials from './components/Testimonials'
+import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -20,49 +22,44 @@ const sectionMap = {
   services: <Services />,
   featuredListings: <FeaturedListings />,
   testimonials: <Testimonials />,
+  faq: <FAQ />,
   contact: <Contact />
 }
 
 function HomePage() {
-  const order = ['hero', 'mobilePortrait', 'services', 'featuredListings', 'testimonials', 'contact']
+  const order = ['hero', 'mobilePortrait', 'services', 'featuredListings', 'testimonials', 'faq', 'contact']
 
   return (
     <>
+      <SEO />
       {order.map((key) => sections.home[key]?.enabled ? <Fragment key={key}>{sectionMap[key]}</Fragment> : null)}
     </>
   )
 }
 
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  },
+  { threshold: 0.05 }
+)
+
+function observe() {
+  document.querySelectorAll('.scroll-reveal:not(.visible)').forEach((el) => observer.observe(el))
+}
+
 export default function App() {
   const { pathname } = useLocation()
-  const observerRef = useRef(null)
 
   useEffect(() => {
-    if (!observerRef.current) {
-      observerRef.current = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => entry.target.classList.add('visible'), 0)
-              observerRef.current.unobserve(entry.target)
-            }
-          })
-        },
-        { threshold: 0.05 }
-      )
-    }
-
-    const observer = observerRef.current
-    const observe = () => {
-      document.querySelectorAll('.scroll-reveal:not(.visible)').forEach((el) => observer.observe(el))
-    }
-
-    requestAnimationFrame(observe)
-    const timer = setTimeout(observe, 500)
-
-    return () => {
-      clearTimeout(timer)
-    }
+    observe()
+    const timer = setTimeout(observe, 300)
+    return () => clearTimeout(timer)
   }, [pathname])
 
   return (

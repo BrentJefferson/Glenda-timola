@@ -8,7 +8,7 @@ const listings = JSON.parse(fs.readFileSync('./data/listings.json', 'utf-8'))
 
 const ogImage = profile.photo || ''
 const siteTitle = `${profile.name} — ${profile.title} in Cebu`
-const siteDesc = profile.tagline
+const siteDesc = profile.description || profile.tagline
 const siteUrl = 'https://glenda-timola.vercel.app'
 
 export default defineConfig({
@@ -24,7 +24,7 @@ export default defineConfig({
             `
   <link rel="canonical" href="${siteUrl}" />
   <meta name="description" content="${siteDesc}" />
-  <meta name="keywords" content="real estate, Cebu, condo, property, Glenda Timola, Philippines, buy condo Cebu" />
+  <meta name="keywords" content="real estate, Cebu, condo, property, Glenda Timola, Philippines, buy condo Cebu, Cebu real estate agent" />
   <meta property="og:title" content="${siteTitle}" />
   <meta property="og:description" content="${siteDesc}" />
   <meta property="og:image" content="${ogImage}" />
@@ -42,11 +42,19 @@ export default defineConfig({
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     "name": "${profile.name}",
-    "description": "${siteDesc}",
+    "description": "${profile.description || siteDesc}",
     "url": "${siteUrl}",
     "image": "${ogImage}",
-    "areaServed": "Cebu, Philippines",
-    "priceRange": "$$"
+    "areaServed": {
+      "@type": "City",
+      "name": "${profile.areaServed || 'Cebu, Philippines'}"
+    },
+    "priceRange": "₱₱",
+    "knowsLanguage": ["English", "Cebuano", "Filipino"],
+    "hasOccupation": {
+      "@type": "Occupation",
+      "name": "Real Estate Agent"
+    }
   }
   </script>
 </head>`

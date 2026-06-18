@@ -1,17 +1,30 @@
 import { Link } from 'react-router-dom'
+import SEO from '../components/SEO'
 import listings from '../../data/listings.json'
 
 export default function ListingsPage() {
   return (
     <div className="min-h-screen pt-24 bg-white">
+      <SEO
+        title="All Properties for Sale in Cebu"
+        description={`Browse ${listings.length} condos and properties in Cebu. Find your perfect home with Glenda Timola.`}
+        path="/listings"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://glenda-timola.vercel.app/' },
+            { '@type': 'ListItem', position: 2, name: 'Listings', item: 'https://glenda-timola.vercel.app/listings' },
+          ],
+        }}
+      />
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-12">
-          <Link to="/#listings" className="inline-flex items-center gap-2 text-taupe hover:text-navy transition-colors mb-6 text-sm uppercase tracking-wide">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Back to Home
-          </Link>
+          <nav className="flex items-center gap-2 text-sm text-taupe mb-6">
+            <Link to="/" className="hover:text-navy transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-navy font-medium">All Listings</span>
+          </nav>
           <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">Properties</p>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-navy">All Listings</h1>
           <div className="w-16 h-0.5 bg-gold mt-4" />
@@ -33,7 +46,7 @@ export default function ListingsPage() {
                   {listing.thumbnail ? (
                     <img
                       src={listing.thumbnail}
-                      alt={listing.title}
+                      alt={`${listing.title} — ${listing.address}`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
@@ -52,7 +65,7 @@ export default function ListingsPage() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <h3 className="font-display font-bold text-lg text-navy mb-1">{listing.title}</h3>
+                  <h2 className="font-display font-bold text-lg text-navy mb-1">{listing.title}</h2>
                   <p className="font-display text-xl font-bold text-gold mb-2">{listing.price}</p>
                   <p className="text-taupe text-sm mb-3">{listing.address}</p>
                   <div className="flex items-center gap-4 text-sm text-taupe">

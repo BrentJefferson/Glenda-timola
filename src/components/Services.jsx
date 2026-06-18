@@ -25,11 +25,16 @@ const iconMap = {
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 bg-cream">
-      <div className="max-w-6xl mx-auto px-6 scroll-reveal">
+    <section id="services" className="py-24 bg-navy relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute top-10 right-1/3 w-72 h-72 rounded-full bg-gold blur-3xl" />
+        <div className="absolute bottom-10 left-1/3 w-80 h-80 rounded-full bg-gold blur-3xl" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative scroll-reveal">
         <div className="text-center mb-16">
           <p className="text-gold font-display text-sm tracking-[0.3em] uppercase mb-3">What I Offer</p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">Services</h2>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white">Services</h2>
           <div className="w-16 h-0.5 bg-gold mx-auto mt-4" />
         </div>
 
@@ -37,13 +42,13 @@ export default function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white rounded-xl p-8 border border-cream hover:shadow-[0_8px_24px_rgba(27,42,74,0.08)] transition-all duration-300 group scroll-reveal"
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300 group scroll-reveal"
             >
-              <div className="text-navy/60 group-hover:text-gold transition-colors duration-300 mb-5">
+              <div className="text-white/50 group-hover:text-gold transition-colors duration-300 mb-5">
                 {iconMap[service.icon]}
               </div>
-              <h3 className="font-display font-bold text-lg text-navy mb-3">{service.title}</h3>
-              <p className="text-taupe text-sm leading-relaxed">{service.description}</p>
+              <h3 className="font-display font-bold text-lg text-white mb-3">{service.title}</h3>
+              <p className="text-white/60 text-sm leading-relaxed">{service.description}</p>
             </div>
           ))}
         </div>

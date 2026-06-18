@@ -17,6 +17,11 @@ const icons = {
       <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
       <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
     </svg>
+  ),
+  facebook: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z" />
+    </svg>
   )
 }
 
@@ -54,6 +59,7 @@ export default function Contact() {
   const iconColor = (title) => {
     if (title === 'Phone') return { bg: '#ECFDF5', text: '#059669' }
     if (title === 'Email') return { bg: '#EEF2FF', text: '#4F46E5' }
+    if (title === 'Facebook') return { bg: '#E7F3FF', text: '#1877F2' }
     if (title === 'Service Area') return { bg: '#FFF7ED', text: '#F97316' }
     return { bg: '#F5F0EB', text: '#1B2A4A' }
   }
@@ -64,6 +70,9 @@ export default function Contact() {
     }
     if (block.title === 'Email') {
       return <a href={`mailto:${block.text}`} className="text-taupe text-sm hover:text-[#4F46E5] transition-colors">{block.text}</a>
+    }
+    if (block.title === 'Facebook') {
+      return <a href={`https://${block.text}`} target="_blank" rel="noopener noreferrer" className="text-taupe text-sm hover:text-[#1877F2] transition-colors">{block.text}</a>
     }
     return <p className="text-taupe text-sm">{block.text}</p>
   }

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
 import FeaturedListings from './components/FeaturedListings'
+import Highlights from './components/Highlights'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
 import Contact from './components/Contact'
@@ -12,6 +13,7 @@ import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import ListingDetail from './pages/ListingDetail'
 import ListingsPage from './pages/ListingsPage'
+import HighlightsPage from './pages/HighlightsPage'
 import TestimonialsPage from './pages/TestimonialsPage'
 import MobilePortrait from './components/MobilePortrait'
 import sections from '../data/sections.json'
@@ -21,13 +23,14 @@ const sectionMap = {
   mobilePortrait: <MobilePortrait />,
   services: <Services />,
   featuredListings: <FeaturedListings />,
+  highlights: <Highlights />,
   testimonials: <Testimonials />,
   faq: <FAQ />,
   contact: <Contact />
 }
 
 function HomePage() {
-  const order = ['hero', 'mobilePortrait', 'services', 'featuredListings', 'testimonials', 'faq', 'contact']
+  const order = ['hero', 'mobilePortrait', 'services', 'featuredListings', 'highlights', 'testimonials', 'faq', 'contact']
 
   return (
     <>
@@ -70,6 +73,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/listing/:id" element={<ListingDetail />} />
           <Route path="/listings" element={<ListingsPage />} />
+          <Route path="/highlights" element={<HighlightsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
         </Routes>
       </main>

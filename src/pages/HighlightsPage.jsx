@@ -109,11 +109,11 @@ export default function HighlightsPage() {
                     <h2 className="font-display font-bold text-2xl md:text-3xl text-navy mb-4 leading-tight">{item.title}</h2>
 
                     {item.images.length > 0 && (
-                      <div className={`grid gap-2 md:gap-3 mb-6 ${item.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                      <div className={`mb-6 ${item.images.length > 1 ? 'grid gap-2 md:gap-3 grid-cols-2' : ''}`}>
                         {item.images.map((src, idx) => (
                           <div
                             key={idx}
-                            className="rounded-xl overflow-hidden bg-white cursor-pointer group/image"
+                            className={`rounded-xl overflow-hidden bg-white cursor-pointer group/image ${item.images.length === 1 ? 'max-w-md' : ''}`}
                             onClick={() => openFullscreen(item, idx)}
                           >
                             <div className="relative">

@@ -6,7 +6,7 @@ import fs from 'fs'
 const profile = JSON.parse(fs.readFileSync('./data/profile.json', 'utf-8'))
 const listings = JSON.parse(fs.readFileSync('./data/listings.json', 'utf-8'))
 
-const ogImage = profile.photo || ''
+const ogImage = 'https://246425165.fs1.hubspotusercontent-na2.net/hubfs/246425165/Glends/listing-city.jpg'
 const siteTitle = `${profile.name} — ${profile.title} in Cebu`
 const siteDesc = profile.description || profile.tagline
 const siteUrl = 'https://cebupropertiesph.com'

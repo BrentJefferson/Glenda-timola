@@ -37,7 +37,7 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           service_id: 'service_fynz02e',
-          template_id: 'template_97etgws',
+          template_id: 'template_e610zqc',
           user_id: '1MLGAM1TFJlk_J06L',
           template_params: formData
         })

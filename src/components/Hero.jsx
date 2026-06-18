@@ -15,7 +15,7 @@ export default function Hero() {
         window.requestAnimationFrame(() => {
           if (bgRef.current) {
             const offset = window.scrollY * 0.3
-            bgRef.current.style.transform = `translateY(${-offset}px)`
+            bgRef.current.style.transform = `translateY(${offset}px)`
           }
           ticking = false
         })

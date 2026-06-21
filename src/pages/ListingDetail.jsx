@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { marked } from 'marked'
 import sections from '../../data/sections.json'
+import contact from '../../data/contact.json'
 import SEO from '../components/SEO'
 import listings from '../../data/listings.json'
 
@@ -218,13 +219,13 @@ export default function ListingDetail() {
               <p className="text-taupe text-xs uppercase tracking-wide mb-1">Price</p>
               <p className="font-display text-3xl font-bold text-gold mb-6">{listing.price}</p>
               <a
-                href={`tel:${listing.contactPhone || ''}`}
+                href={`tel:${listing.contactPhone || contact.infoBlocks[0].text}`}
                 className="block w-full bg-navy text-white text-center py-3 rounded-lg hover:bg-navy/90 transition-all duration-300 text-sm font-semibold uppercase tracking-wide mb-3"
               >
                 Inquire Now
               </a>
               <a
-                href={`mailto:${listing.contactEmail || ''}`}
+                href={`mailto:${listing.contactEmail || contact.infoBlocks[1].text}`}
                 className="block w-full border border-navy/20 text-navy text-center py-3 rounded-lg hover:bg-navy/5 transition-all duration-300 text-sm font-semibold uppercase tracking-wide"
               >
                 Send Email
@@ -347,13 +348,13 @@ export default function ListingDetail() {
 
         <div className="flex gap-3 pb-6">
           <a
-            href={`tel:${listing.contactPhone || ''}`}
+            href={`tel:${listing.contactPhone || contact.infoBlocks[0].text}`}
             className="flex-1 bg-navy text-white text-center py-3 rounded-xl hover:bg-navy/90 transition-all text-sm font-semibold uppercase tracking-wide"
           >
             Inquire Now
           </a>
           <a
-            href={`mailto:${listing.contactEmail || ''}`}
+            href={`mailto:${listing.contactEmail || contact.infoBlocks[1].text}`}
             className="flex-1 border border-navy/20 text-navy text-center py-3 rounded-xl hover:bg-navy/5 transition-all text-sm font-semibold uppercase tracking-wide"
           >
             Email
